@@ -32,7 +32,7 @@ app.set('views', __dirname + '/views');
 swig.setDefaults({ cache: false});
 
 // Sync with Database and Start Server
-models.Query.sync({force: true}) // force drop table if exists [DEVELOPMENT]
+models.Query.sync() // force drop table if exists [DEVELOPMENT]
 	.then(function() {
 		// Tell server to listen on whatever is in environment variable PORT or 3000
 		// (for Heroku, AWS deployment)
