@@ -9,6 +9,15 @@ var utils = require("../models/utils.js");
 
 var returnRouter = function(io) {
 
+	// SOCKET IO
+	// io.on('connection', function(socket) {
+	// 	console.log(socket);
+	// 	socket.on('search', function (data) {
+	// 		console.log('got here');
+	// 		console.log(data);
+	// 	});
+	// });
+
 	router.get('/', function(req, res, next) {
 
 		res.render('search');
@@ -26,7 +35,6 @@ var returnRouter = function(io) {
 		})
 		query.save()
 			.then(function(savedEntry) {
-				// do something with savedEntry
 			})
 			.catch(function (error) {
 				console.log(error);

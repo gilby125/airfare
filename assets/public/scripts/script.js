@@ -10,9 +10,20 @@ $('#passenger-count-dropdown')
 	.dropdown('set selected', '1')
 ;
 
-$('.form').submit(function(event) {
-	event.preventDefault();
-	$(this).slideUp('slow', function() {
-		// Animation complete.
-	});
+$("#roundTripSubmit").on("submit", function(e) {
+    e.preventDefault();
+    $.ajax({
+        url: $(this).attr("action"),
+        type: 'POST',
+        data: $(this).serialize(),
+        beforeSend: function() {
+        	// callback before send
+        },
+        success: function(data) {
+        	// callback after success
+        }
+    });
+    $(".form").slideUp('slow', function() {
+       	// Animation complete
+    });
 });

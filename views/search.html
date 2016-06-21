@@ -13,7 +13,7 @@
       <div class="tab-content">
         <div id="roundtrip">   
 
-          <form action="/search" method="post">
+          <form id="roundTripSubmit" action="/search" method="post">
           
           <!-- submit which trip type it is -->
           <input name="trip-type" type="hidden" value="roundTrip">
@@ -129,10 +129,18 @@
         
       </div><!-- tab-content -->
 
-      
+
 
 
       
 </div> <!-- /form -->
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io();
+    $('.form').submit(function(event){
+    	socket.emit('search', "data");
+  	});
+</script>
 
 {% endblock %}

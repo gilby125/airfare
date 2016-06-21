@@ -24,6 +24,8 @@ var models = require("./models")
 
 // Instantiate express.
 var app = express();
+var server;
+var io;
 
 // Configure templating engine.
 app.engine('html', swig.renderFile);
@@ -36,10 +38,16 @@ models.Query.sync() // force drop table if exists [DEVELOPMENT]
 	.then(function() {
 		// Tell server to listen on whatever is in environment variable PORT or 3000
 		// (for Heroku, AWS deployment)
-		var server = app.listen(process.env.PORT || 3001, function() {
+		server = app.listen(process.env.PORT || 3001, function() {
 			console.log('listening on port 3000')
 		});
-		var io = socketio.listen(server);
+		io = socketio.listen(server);
+
+		// Routing
+		app.use('/', index());
+		app.use('/search', search(io));
+		app.use('/discover',  discover());
+
 	})
 	.catch(console.error);
 
@@ -53,11 +61,6 @@ app.use(function(req, res, next) {
 // Body-Parser
 app.use(bodyParser.urlencoded({ extended: true })); // for HTML form submits
 app.use(bodyParser.json()); // would be for AJAX requests
-
-// Routing
-app.use('/', index());
-app.use('/search', search());
-app.use('/discover',  discover());
 
 // Serving static files in public folder
 app.use(express.static(__dirname + '/assets/public'));
