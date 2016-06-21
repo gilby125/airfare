@@ -1,7 +1,9 @@
 // Database connection
 
 var Sequelize = require('sequelize');
-var db = new Sequelize('postgres://localhost:5432/airfare');
+var db = new Sequelize('postgres://localhost:5432/airfare', {
+	logging: false
+});
 
 var Query = db.define('query', {
 	uid: {
@@ -18,9 +20,14 @@ var Query = db.define('query', {
 		allowNull: false
 	},
 	cabinClass: {
-		type: Sequelize.ENUM('economy', 'premium', 'business', 'first')
-		allowNull: true
+		type: Sequelize.ENUM('economy', 'premium', 'business', 'first'),
+		allowNull: true,
 		defaultValue: 'economy'
+	},
+	numPassengers: {
+		type: Sequelize.INTEGER(),
+		allowNull: true,
+		defaultValue: 1
 	}
 });
 

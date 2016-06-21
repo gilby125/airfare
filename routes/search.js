@@ -1,5 +1,8 @@
 var express = require('express');
 var router = express.Router();
+var models = require("../models");
+var Query = models.Query;
+
 // var path = require('path');
 
 
@@ -12,7 +15,10 @@ var returnRouter = function(io) {
 	})
 
 	router.post('/', function(req, res, next) {
-		console.log(req.body);
+		var query = Query.build ( {
+
+			
+		})
 		res.redirect('/search');
 	})
 

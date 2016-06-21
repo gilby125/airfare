@@ -19,19 +19,30 @@ var index = require('./routes/');
 var search = require('./routes/search');
 var discover = require('./routes/discover');
 
+// Require models.
+var models = require("./models")
+
 // Instantiate express.
 var app = express();
-
-// Tell server to listen on whatever is in environment variable PORT or 3000
-// (for Heroku, AWS deployment)
-var server = app.listen(process.env.PORT || 3001);
-var io = socketio.listen(server);
 
 // Configure templating engine.
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 swig.setDefaults({ cache: false});
+
+// Sync with Database and Start Server
+models.Query.sync({force: true}) // force drop table if exists [DEVELOPMENT]
+	.then(function() {
+		// Tell server to listen on whatever is in environment variable PORT or 3000
+		// (for Heroku, AWS deployment)
+		var server = app.listen(process.env.PORT || 3001, function() {
+			console.log('listening on port 3000')
+		});
+		var io = socketio.listen(server);
+	})
+	.catch(console.error);
+
 
 // Catch all incoming connections [MW]
 app.use(function(req, res, next) {
