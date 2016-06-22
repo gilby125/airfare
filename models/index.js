@@ -1,9 +1,15 @@
 // Database connection
 
 var Sequelize = require('sequelize');
-var db = new Sequelize('postgres://localhost:5432/airfare', {
+// LOCALHOST
+// var db = new Sequelize('postgres://localhost:5432/airfare', {
+// 	logging: false
+// });
+
+// HEROKU
+var db = new Sequelize('postgres://acswebafzhdjgj:xUR47oaC3peRZUcQ1dJyddYVvz@ec2-54-243-203-93.compute-1.amazonaws.com:5432/d29jidbh0qhh35', {
 	logging: false
-});
+})
 
 var Query = db.define('query', {
 	uid: {
