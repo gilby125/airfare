@@ -18,6 +18,7 @@ var bodyParser = require('body-parser');
 var index = require('./routes/');
 var search = require('./routes/search');
 var discover = require('./routes/discover');
+var api = require('./routes/api');
 
 // Require models.
 var models = require("./models")
@@ -36,18 +37,21 @@ swig.setDefaults({ cache: false});
 // Sync with Database and Start Server
 models.Query.sync() // force drop table if exists [DEVELOPMENT]
 	.then(function() {
-		// Tell server to listen on whatever is in environment variable PORT or 3000
-		// (for Heroku, AWS deployment)
-		server = app.listen(process.env.PORT || 3001, function() {
-			console.log('listening on port 3000')
-		});
-		io = socketio.listen(server);
+		models.Results.sync()
+			.then(function() {
+				// Tell server to listen on whatever is in environment variable PORT or 3000
+				// (for Heroku, AWS deployment)
+				server = app.listen(process.env.PORT || 3001, function() {
+					console.log('listening on port 3000')
+				});
+				io = socketio.listen(server);
 
-		// Routing
-		app.use('/', index());
-		app.use('/search', search(io));
-		app.use('/discover',  discover());
-
+				// Routing
+				app.use('/', index());
+				app.use('/search', search(io));
+				app.use('/discover',  discover());
+				app.use('/api', api());
+			})
 	})
 	.catch(console.error);
 

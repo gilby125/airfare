@@ -28,9 +28,43 @@ var Query = db.define('query', {
 		type: Sequelize.INTEGER(),
 		allowNull: true,
 		defaultValue: 1
+	},
+	socketId: {
+		type: Sequelize.STRING(),
+		allowNull: true,
+		defaultValue: ""
+	}
+});
+
+var Results = db.define('results', {
+	uid: {
+		type: Sequelize.INTEGER,
+		primaryKey: true,
+		autoIncrement: true
+	},
+	ota: {
+		type: Sequelize.STRING(),
+		allowNull: false
+	},
+	price: {
+		type: Sequelize.STRING(),
+		allowNull: false
+	},
+	duration: {
+		type: Sequelize.STRING(),
+		allowNull: false
+	},
+	url: {
+		type: Sequelize.STRING(),
+		allowNull: true
+	},
+	socket: {
+		type: Sequelize.STRING(),
+		allowNull: true
 	}
 });
 
 module.exports = {
-	Query: Query
+	Query: Query,
+	Results: Results
 };

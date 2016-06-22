@@ -15,10 +15,12 @@
     "gulp-header": "^1.8.2",
     "pg": "^5.1.0",
     "pg-hstore": "^2.3.2",
+    "pg-pubsub": "^0.3.0",
     "request": "^2.72.0",
     "semantic-ui": "^2.1.8",
     "sequelize": "^3.23.3",
     "socketio": "^1.0.0",
+    "spooky": "^0.2.5",
     "swig": "^1.4.2"
   }
 }

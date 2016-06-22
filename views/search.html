@@ -135,12 +135,79 @@
       
 </div> <!-- /form -->
 
+<!-- RESULTS TABLE / TEMP TABLE EASY DEVELOPMENT--> 
+
+<div id="results">
+  <!-- Responsive table starts here -->
+  <!-- For correct display on small screens you must add 'data-title' to each 'td' in your table -->
+  <div class="table-responsive-vertical shadow-z-1">
+  <!-- Table starts here -->
+  <table id="table" class="table table-hover table-mc-light-blue">
+      <thead>
+        <tr>
+          <th>OTA</th>
+          <th>Price</th>
+          <th>Details</th>
+          <th>Book</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td data-title="OTA">Priceline</td>
+          <td data-title="Price">$1828.38</td>
+          <td data-title="Details">{}</td>
+          <td data-title="Book"><a href="#" target="_blank">Book Now!</a></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
 <script src="/socket.io/socket.io.js"></script>
 <script>
     var socket = io();
-    $('.form').submit(function(event){
-    	socket.emit('search', "data");
-  	});
+    var socketConnected = false;
+    var socketId;
+    socket.on('connect', function() {
+    	socketConnected = true;
+    	console.log('Connected! ID: ' + socket.id);
+    	socketId = socket.id
+	    // add socket id (uid) to input form before submit
+    	$('#roundTripSubmit')
+    		.prepend('<input name="user-id" type="hidden" value="' + socketId + '">');
+    })
+
+  	$("#roundTripSubmit").on("submit", function(e) {
+	    e.preventDefault();
+	    $.ajax({
+	        url: $(this).attr("action"),
+	        type: 'POST',
+	        data: $(this).serialize(),
+	        beforeSend: function() {
+	        	// callback before send
+	        },
+	        success: function(data) {
+	        	// callback after success
+	        }
+	    });
+	    $(".form").slideUp('slow', function() {
+	       	// Animation complete
+	    });
+
+	    $("#results").fadeIn('slow', function() {
+	    	// Animation complete
+	    });
+
+    	socket.emit('search', socketId); // Start search query on server passing in client id.
+	});
+
+	socket.on('new_result', function (result) {
+		console.log(result);
+	})
+	// do client-side stuff with result
+
 </script>
 
 {% endblock %}
