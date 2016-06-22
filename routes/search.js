@@ -57,7 +57,8 @@ var returnRouter = function(io) {
 					
 
 					var ota = ['expedia', 'travelocity', 'priceline', 'vayama', 'orbitz'];
-					var phantomJSPath = '/Users/fullstack/airfare_scraper/scraper/phantomjs-2.1.1-macosx/bin';
+					// var phantomJSPath = '/Users/fullstack/airfare_scraper/scraper/phantomjs-2.1.1-macosx/bin';
+					// var phantomJSPath = 'phantomjs'
 					console.log(__dirname);
 					
 					links.forEach(function (link, index) {
@@ -65,7 +66,10 @@ var returnRouter = function(io) {
 						console.log(scraperPath);
 						var cmd = 'casperjs ' + scraperPath + ' --url="' + link + '" --socketId="' + socketId + '"';
 						// Start Individual CasperJS Scraper Instance
-						exec(cmd, { env: { PATH: process.env.PATH + ':' + phantomJSPath}}, function(error, stdout, stderr) {
+						// exec(cmd, { env: { PATH: process.env.PATH + ':' + phantomJSPath}}, function(error, stdout, stderr) {
+						// 	console.log("STDOUT: " + stdout);
+						// });
+						exec(cmd, function(error, stdout, stderr) {
 							console.log("STDOUT: " + stdout);
 						});
 					});
