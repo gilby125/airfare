@@ -58,6 +58,7 @@ var returnRouter = function(io) {
 
 					var ota = ['expedia', 'travelocity', 'priceline', 'vayama', 'orbitz'];
 					var phantomJSPath = '/Users/fullstack/airfare_scraper/scraper/phantomjs-2.1.1-macosx/bin';
+					console.log(__dirname);
 					
 					links.forEach(function (link, index) {
 						var scraperPath = path.resolve(__dirname, '../scraper/' + ota[index] + '.js');
