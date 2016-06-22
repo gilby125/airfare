@@ -20,7 +20,8 @@ var exec = require('child_process').exec;
 var returnRouter = function(io) {
 
 	// DATABASE REAL-TIME IO - NOTIFY/LISTEN
-	pg.connect("postgres://localhost:5432/airfare", function(err, client) {
+	// LOCALHOST - postgres://localhost:5432/airfare
+	pg.connect("postgres://acswebafzhdjgj:xUR47oaC3peRZUcQ1dJyddYVvz@ec2-54-243-203-93.compute-1.amazonaws.com:5432/d29jidbh0qhh35", function(err, client) {
     if(err) {
         console.log(err);
     }
