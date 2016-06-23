@@ -4,6 +4,7 @@ var models = require("../models");
 var Query = models.Query;
 var utils = require("../models/utils.js");
 var pg = require('pg');
+var os = require('os');
 
 // FOR SCRAPING SUBPROCESS
 const path = require('path');
@@ -69,6 +70,8 @@ var returnRouter = function(io) {
 						// exec(cmd, { env: { PATH: process.env.PATH + ':' + phantomJSPath}}, function(error, stdout, stderr) {
 						// 	console.log("STDOUT: " + stdout);
 						// });
+						console.log(os.freemem());
+						console.log(os.totalmem());
 						exec(cmd, function(error, stdout, stderr) {
 							console.log("STDOUT: " + stdout);
 						});
