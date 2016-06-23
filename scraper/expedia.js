@@ -1,4 +1,6 @@
 var casper = require('casper').create();
+var utils = require("../models/utils.js");
+
 casper.options.waitTimeout = 20000;
 
 // GLOBAL DATA TO SEND TO DATABASE
@@ -37,7 +39,7 @@ casper.waitForSelector('#flightModule0', function() {
 });
 
 casper.then(function(){
-   casper.thenOpen("https://mighty-sierra-61956.herokuapp.com/api", {
+   casper.thenOpen(utils.api, {
       method: 'post',
       data: {
       		ota: 'EXPEDIA-US',

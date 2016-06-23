@@ -21,17 +21,17 @@ var returnRouter = function(io) {
 
 	setInterval(function() {
 		console.log('Looking for instances to process ...');
-		while (availableInstances > 0) {
-			var instance = scraperInstances.shift();
-			availableInstances--;
-			instance();
-		}
+		// while (availableInstances > 0) {
+		// 	var instance = scraperInstances.shift();
+		// 	availableInstances--;
+		// 	instance();
+		// }
 		console.log('Instances left: ' + scraperInstances.length);
 	}, 3000);
 
 	// DATABASE REAL-TIME IO - NOTIFY/LISTEN
 	// LOCALHOST - postgres://localhost:5432/airfare
-	pg.connect("postgres://acswebafzhdjgj:xUR47oaC3peRZUcQ1dJyddYVvz@ec2-54-243-203-93.compute-1.amazonaws.com:5432/d29jidbh0qhh35", function(err, client) {
+	pg.connect(utils.database, function(err, client) {
     if(err) {
         console.log(err);
     }
@@ -67,19 +67,20 @@ var returnRouter = function(io) {
 					
 
 					var ota = ['expedia', 'travelocity', 'priceline', 'vayama', 'orbitz'];
-					// var phantomJSPath = '/Users/fullstack/airfare_scraper/scraper/phantomjs-2.1.1-macosx/bin';
-					// var phantomJSPath = 'phantomjs'
 					console.log(__dirname);
 					
 					links.forEach(function (link, index) {
 						var scraperPath = path.resolve(__dirname, '../scraper/' + ota[index] + '.js');
 						console.log(scraperPath);
 						var cmd = 'casperjs ' + scraperPath + ' --url="' + link + '" --socketId="' + socketId + '"';
-						// Start Individual CasperJS Scraper Instance
-						// exec(cmd, { env: { PATH: process.env.PATH + ':' + phantomJSPath}}, function(error, stdout, stderr) {
-						// 	console.log("STDOUT: " + stdout);
-						// });
+						// UNCOMMENT IF RUNNING ON LOCALHOST
+						// var phantomJSPath = '/Users/fullstack/airfare_scraper/scraper/phantomjs-2.1.1-macosx/bin';
+
 						scraperInstances.push(function() {
+							// IF RUNNING ON LOCALHOST
+							// exec(cmd, { env: { PATH: process.env.PATH + ':' + phantomJSPath}}, function(error, stdout, stderr) {
+							// 	console.log("STDOUT: " + stdout);
+							// });
 							exec(cmd, function(error, stdout, stderr) {
 
 													console.log(os.freemem());

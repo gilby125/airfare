@@ -1,4 +1,6 @@
 var casper = require('casper').create();
+var utils = require("../models/utils.js");
+
 casper.options.waitTimeout = 40000;
 // GLOBAL DATA TO SEND TO DATABASE
 var globalInfo = {};
@@ -35,7 +37,7 @@ casper.waitForSelector('.resultItinBox', function() {
 });
 // http://localhost:3001/api
 casper.then(function(){
-   casper.thenOpen("https://mighty-sierra-61956.herokuapp.com/api", {
+   casper.thenOpen(utils.api, {
       method: 'post',
       data: {
       		ota: 'VAYAMA-US',
