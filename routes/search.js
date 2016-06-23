@@ -20,7 +20,13 @@ var returnRouter = function(io) {
 	var scraperInstances = [];
 
 	setInterval(function() {
-		console.log('this is a test');
+		console.log('Looking for instances to process ...');
+		while (scraperInstances.length > 10) {
+			scraperInstances[0]();
+			scraperInstances.shift();
+			console.log('Running scraper instance: ');
+		}
+		console.log('Instances left: ' + scraperInstances.length);
 	}, 3000);
 
 	// DATABASE REAL-TIME IO - NOTIFY/LISTEN
@@ -73,10 +79,12 @@ var returnRouter = function(io) {
 						// exec(cmd, { env: { PATH: process.env.PATH + ':' + phantomJSPath}}, function(error, stdout, stderr) {
 						// 	console.log("STDOUT: " + stdout);
 						// });
-						exec(cmd, function(error, stdout, stderr) {
-							console.log(os.freemem());
-							console.log("STDOUT: " + stdout);
-						});
+						scraperInstances.push(function() {
+							exec(cmd, function(error, stdout, stderr) {
+													console.log(os.freemem());
+													console.log("STDOUT: " + stdout);
+												});
+						})
 					});
 
 				})
