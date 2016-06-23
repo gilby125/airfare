@@ -33,9 +33,9 @@ casper.waitForSelector('.resultItinBox', function() {
 	globalInfo.duration = duration;
 
 });
-
+// http://localhost:3001/api
 casper.then(function(){
-   casper.thenOpen("http://localhost:3001/api", {
+   casper.thenOpen("https://mighty-sierra-61956.herokuapp.com/api", {
       method: 'post',
       data: {
       		ota: 'VAYAMA-US',

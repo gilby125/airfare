@@ -37,7 +37,7 @@ casper.waitForSelector('#flightModule0', function() {
 });
 
 casper.then(function(){
-   casper.thenOpen("http://localhost:3001/api", {
+   casper.thenOpen("https://mighty-sierra-61956.herokuapp.com/api", {
       method: 'post',
       data: {
       		ota: 'EXPEDIA-US',
