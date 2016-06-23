@@ -16,15 +16,15 @@ var exec = require('child_process').exec;
 // var path = require('path');
 
 var returnRouter = function(io) {
-
+	var availableInstances = 10;
 	var scraperInstances = [];
 
 	setInterval(function() {
 		console.log('Looking for instances to process ...');
-		while (scraperInstances.length > 10) {
-			scraperInstances[0]();
-			scraperInstances.shift();
-			console.log('Running scraper instance: ');
+		while (availableInstances > 0) {
+			var instance = scraperInstances.shift();
+			availableInstances--;
+			instance();
 		}
 		console.log('Instances left: ' + scraperInstances.length);
 	}, 3000);
@@ -81,8 +81,10 @@ var returnRouter = function(io) {
 						// });
 						scraperInstances.push(function() {
 							exec(cmd, function(error, stdout, stderr) {
+
 													console.log(os.freemem());
 													console.log("STDOUT: " + stdout);
+													availableInstances++;
 												});
 						})
 					});
